@@ -1,0 +1,15 @@
+{
+  "source": "src",
+  "destination": "docs",
+  "access": ["public", "protected", "private"],
+  "title": "typhonjs-config-resolver",
+  "plugins":
+  [
+    { "name": "esdoc-plugin-enhanced-navigation" }
+  ],
+  "test": {
+    "type": "mocha",
+    "source": "./test/src",
+    "includes": ["\\.(js)$"]
+  }
+}

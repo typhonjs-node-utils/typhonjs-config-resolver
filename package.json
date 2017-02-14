@@ -1,0 +1,44 @@
+{
+  "name": "typhonjs-config-resolver",
+  "version": "0.0.1",
+  "description": "Provides support to load config files and local or module extensions along with validation.",
+  "author": "typhonrt",
+  "homepage": "https://github.com/typhonjs-node-utils/typhonjs-config-resolver",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/typhonjs-node-utils/typhonjs-config-resolver"
+  },
+  "scripts": {
+    "build": "babel-node ./node_modules/typhonjs-npm-scripts-build-babel/scripts/build.js",
+    "esdoc": "esdoc -c .esdocrc",
+    "eslint": "eslint .",
+    "prepublish": "babel-node ./node_modules/typhonjs-npm-scripts-publish/scripts/prepublish.js",
+    "test": "babel-node ./node_modules/typhonjs-npm-scripts-test-mocha/scripts/mocha.js",
+    "test-coverage": "babel-node ./node_modules/typhonjs-npm-scripts-test-mocha/scripts/mocha-istanbul.js"
+  },
+  "dependencies": {
+    "typhonjs-object-util": ">=0.2.0"
+  },
+  "devDependencies": {
+    "backbone-esnext-events": ">=0.3.0",
+    "typhonjs-config-eslint": "^0.4.0",
+    "typhonjs-config-resolver-tests": "git+https://git@github.com/typhonjs-node-utils/typhonjs-config-resolver-tests.git",
+    "typhonjs-npm-build-test": "^0.4.0",
+    "typhonjs-plugin-manager": ">=0.1.0"
+  },
+  "keywords": [
+    "typhonjs",
+    "config",
+    "resolver"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "AUTHORS.md"
+  ],
+  "main": "dist/ConfigResolver.js",
+  "bugs": {
+    "url": "https://github.com/typhonjs-node-utils/typhonjs-config-resolver/issues"
+  }
+}
