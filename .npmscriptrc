@@ -9,7 +9,7 @@
 
    "publish":
    {
-      "prepublish": { "scripts": ["npm run test", "npm run build"] }
+      "prepublish": { "scripts": ["npm run eslint", "npm run test", "npm run build"] }
    },
 
    "test":
