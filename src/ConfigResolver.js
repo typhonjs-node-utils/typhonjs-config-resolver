@@ -75,7 +75,7 @@ export default class ConfigResolver
    /**
     * Merges two config objects. This will not only add missing keys, but will also modify values to match.
     *
-    * If an object key is included in this._upgradeMergeSet it will be upgraded and merged into an array without
+    * If an object key is included in this._upgradeMergeList it will be upgraded and merged into an array without
     * duplicating elements.
     *
     * @param {Object}   target - Config object.
@@ -181,14 +181,15 @@ export default class ConfigResolver
          Object.keys(src).forEach((srcKey) =>
          {
             // Potentially upgrade any single value to an array.
-            if (this._upgradeMergeSet.has(srcKey) && !Array.isArray(src[srcKey]))
+            if (this._upgradeMergeList.indexOf(srcKey) >= 0 && !Array.isArray(src[srcKey]))
             {
                src[srcKey] = [src[srcKey]];
             }
 
             if (Array.isArray(src[srcKey]) || Array.isArray(target[srcKey]))
             {
-               dst[srcKey] = this._deepMerge(target[srcKey], src[srcKey], this._upgradeMergeSet.has(srcKey), srcKey);
+               dst[srcKey] = this._deepMerge(target[srcKey], src[srcKey], this._upgradeMergeList.indexOf(srcKey) >= 0,
+                srcKey);
             }
             else if (typeof src[srcKey] !== 'object' || !src[srcKey])
             {
@@ -217,7 +218,7 @@ export default class ConfigResolver
          defaultValues: this._defaultValues,
          preValidate: this._preValidate,
          postValidate: this._postValidate,
-         upgradeMergeSet: this._upgradeMergeSet
+         upgradeMergeList: this._upgradeMergeList
       };
    }
 
@@ -431,12 +432,12 @@ export default class ConfigResolver
     *
     * Note: For values of ConfigResolverData not set empty defaults are provided.
     */
-   setResolverData({ defaultValues = {}, preValidate = {}, postValidate = {}, upgradeMergeSet = new Set() } = {})
+   setResolverData({ defaultValues = {}, preValidate = {}, postValidate = {}, upgradeMergeList = [] } = {})
    {
       if (typeof defaultValues !== 'object') { throw new TypeError(`'defaultValues' is not an 'object'.`); }
       if (typeof preValidate !== 'object') { throw new TypeError(`'preValidate' is not an 'object'.`); }
       if (typeof postValidate !== 'object') { throw new TypeError(`'postValidate' is not an 'object'.`); }
-      if (!(upgradeMergeSet instanceof Set)) { throw new TypeError(`'upgradeMergeSet' is not a 'Set'.`); }
+      if (!Array.isArray(upgradeMergeList)) { throw new TypeError(`'upgradeMergeList' is not an 'array'.`); }
 
       /**
        * @type {object} - Accessor entry to default value.
@@ -454,9 +455,9 @@ export default class ConfigResolver
       this._postValidate = postValidate;
 
       /**
-       * @type {Set<string>} - A set of strings indicating keys which will be updated to an array and merged.
+       * @type {Array<string>} - A list of strings indicating keys which will be updated to an array and merged.
        */
-      this._upgradeMergeSet = upgradeMergeSet;
+      this._upgradeMergeList = upgradeMergeList;
    }
 }
 
