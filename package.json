@@ -18,6 +18,7 @@
     "test-coverage": "babel-node ./node_modules/typhonjs-npm-scripts-test-mocha/scripts/mocha-istanbul.js"
   },
   "dependencies": {
+    "babel-runtime": "^6.0.0",
     "typhonjs-object-util": ">=0.2.0"
   },
   "devDependencies": {
