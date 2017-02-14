@@ -353,7 +353,7 @@ export default class ConfigResolver
    /**
     * Resolves any config extension and sets missing default config values.
     *
-    * @param {TJSDocConfig}   config - The TJSDoc config to resolve.
+    * @param {object}   config - A config object to resolve.
     *
     * @override
     */
@@ -420,11 +420,11 @@ export default class ConfigResolver
    /**
     * Sets default config values.
     *
-    * @param {TJSDocConfig}   config - A TJSDoc config.
+    * @param {object}   config - A config object to set default values that do not already exist.
     */
    setDefaultValues(config)
    {
-      if (this._defaultValues) { ObjectUtil.safeSetAll(config, this._defaultValues); }
+      if (this._defaultValues) { ObjectUtil.safeSetAll(config, this._defaultValues, 'set-undefined', false); }
    }
 
    /**
@@ -440,22 +440,26 @@ export default class ConfigResolver
       if (!Array.isArray(upgradeMergeList)) { throw new TypeError(`'upgradeMergeList' is not an 'array'.`); }
 
       /**
-       * @type {object} - Accessor entry to default value.
+       * Accessor entry to default value.
+       * @type {object}
        */
       this._defaultValues = defaultValues;
 
       /**
-       * @type {object} - Accessor entry to typhonjs-object-util validation entry.
+       * Accessor entry to typhonjs-object-util validation entry.
+       * @type {object}
        */
       this._preValidate = preValidate;
 
       /**
-       * @type {object} - Accessor entry to typhonjs-object-util validation entry.
+       * Accessor entry to typhonjs-object-util validation entry.
+       * @type {object}
        */
       this._postValidate = postValidate;
 
       /**
-       * @type {Array<string>} - A list of strings indicating keys which will be updated to an array and merged.
+       * A list of strings indicating keys which will be updated to an array and merged.
+       * @type {Array<string>}
        */
       this._upgradeMergeList = upgradeMergeList;
    }

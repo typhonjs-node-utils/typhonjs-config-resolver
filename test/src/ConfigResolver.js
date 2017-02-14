@@ -6,7 +6,7 @@ import testData      from 'typhonjs-config-resolver-tests/testdata';
 
 const eventbus = new TyphonEvents();
 
-//eventbus.on('log:info:raw', console.log);
+// eventbus.on('log:info:raw', console.log);
 
 const pluginManager = new PluginManager({ eventbus });
 
@@ -16,8 +16,6 @@ pluginManager.add({ name: './src/ConfigResolver.js' });
 /** @test {ConfigResolver} */
 describe('ConfigResolver', () =>
 {
-   //console.log('!! config: ' + JSON.stringify(config));
-
    it('throws on no data', () =>
    {
       assert.throws(() => eventbus.trigger('config:resolver:resolve'));

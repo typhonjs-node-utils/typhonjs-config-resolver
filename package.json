@@ -1,6 +1,6 @@
 {
   "name": "typhonjs-config-resolver",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Provides support to load config files and local or module extensions along with validation.",
   "author": "typhonrt",
   "homepage": "https://github.com/typhonjs-node-utils/typhonjs-config-resolver",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
-    "typhonjs-object-util": ">=0.3.0"
+    "typhonjs-object-util": ">=0.4.0"
   },
   "devDependencies": {
     "backbone-esnext-events": ">=0.3.0",
@@ -34,6 +34,7 @@
     "resolver"
   ],
   "files": [
+    ".tjsdoc",
     "dist",
     "src",
     "AUTHORS.md"
