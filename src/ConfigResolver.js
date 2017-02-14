@@ -384,7 +384,6 @@ export default class ConfigResolver
    {
       if (!config.extends) { return JSON.parse(JSON.stringify(config)); }
 
-      // TODO: This could be wrong when released as an NPM module!
       const dirPath = process.cwd();
 
       const loadedConfigs = [];
