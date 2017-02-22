@@ -6,12 +6,13 @@ import testData      from 'typhonjs-config-resolver-tests/testdata';
 
 const eventbus = new TyphonEvents();
 
-// eventbus.on('log:info:raw', console.log);
-
 const pluginManager = new PluginManager({ eventbus });
 
 // Initialize ConfigResolver plugin with no defaults or validation data.
 pluginManager.add({ name: './src/ConfigResolver.js' });
+
+// Uncomment the line below to log resolution chains.
+// eventbus.on('log:info', console.log);
 
 /** @test {ConfigResolver} */
 describe('ConfigResolver', () =>

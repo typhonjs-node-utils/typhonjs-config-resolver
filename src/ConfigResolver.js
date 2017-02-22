@@ -61,7 +61,10 @@ export default class ConfigResolver
          // Early out if this path has already been loaded; prevents circular dependencies.
          if (loadedConfigs.indexOf(parentPath) >= 0) { return previousValue; }
 
-         if (this._eventbus) { this._eventbus.trigger('log:info:raw', `resolving config extends: ${parentPath}`); }
+         if (this._eventbus && this._logEvent)
+         {
+            this._eventbus.trigger(this._logEvent, `resolving config extends: ${parentPath}`);
+         }
 
          // Stores the loaded config path.
          loadedConfigs.push(parentPath);
@@ -311,6 +314,8 @@ export default class ConfigResolver
        * @type {EventProxy} - The plugin manager event proxy.
        */
       this._eventbus = eventbus;
+      this._logEvent = options.logEvent || 'log:info';
+
 
       let eventPrepend = '';
 
