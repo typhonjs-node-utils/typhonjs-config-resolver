@@ -360,19 +360,21 @@ export default class ConfigResolver
     *
     * @param {object}   config - A config object to resolve.
     *
+    * @param {string}   [configName='config'] - Optional name of the config object.
+    *
     * @override
     */
-   resolve(config)
+   resolve(config, configName = 'config')
    {
       if (typeof config !== 'object') { throw new TypeError(`'config' is not an 'object'.`); }
 
-      this.preValidate(config);
+      this.preValidate(config, configName);
 
       const resolvedConfig = this._allowExtends ? this._resolveExtends(config) : config;
 
       this.setDefaultValues(resolvedConfig);
 
-      this.postValidate(resolvedConfig);
+      this.postValidate(resolvedConfig, configName);
 
       return resolvedConfig;
    }
