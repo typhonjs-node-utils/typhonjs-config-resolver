@@ -9,7 +9,14 @@ const eventbus = new TyphonEvents();
 const pluginManager = new PluginManager({ eventbus });
 
 // Initialize ConfigResolver plugin with no defaults or validation data.
-pluginManager.add({ name: './src/ConfigResolver.js' });
+pluginManager.add({ name: 'extend-resolver', target: './src/ConfigResolver.js' });
+
+// Initialize ConfigResolver plugin with extension disabled.
+pluginManager.add({
+   name: 'noextend-resolver',
+   target: './src/ConfigResolver.js',
+   options: { eventPrepend: 'noextend', resolverData: { allowExtends: false } }
+});
 
 // Uncomment the line below to log resolution chains.
 // eventbus.on('log:info', console.log);
@@ -20,6 +27,14 @@ describe('ConfigResolver', () =>
    it('throws on no data', () =>
    {
       assert.throws(() => eventbus.trigger('config:resolver:resolve'));
+   });
+
+   it('allowExtends: false; does not allow extension', () =>
+   {
+      const config = eventbus.triggerSync('noextend:config:resolver:resolve', testData[0].tests[0].config);
+
+      assert.strictEqual(JSON.stringify(config),
+       '{"extends":"./node_modules/typhonjs-config-resolver-tests/config/basic.json"}');
    });
 
    for (const category of testData)

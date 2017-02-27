@@ -368,7 +368,7 @@ export default class ConfigResolver
 
       this.preValidate(config);
 
-      const resolvedConfig = this._resolveExtends(config);
+      const resolvedConfig = this._allowExtends ? this._resolveExtends(config) : config;
 
       this.setDefaultValues(resolvedConfig);
 
@@ -436,15 +436,23 @@ export default class ConfigResolver
     *
     * Note: For values of ConfigResolverData not set empty defaults are provided.
     */
-   setResolverData({ defaultValues = {}, preValidate = {}, postValidate = {}, upgradeMergeList = [] } = {})
+   setResolverData(
+    { allowExtends = true, defaultValues = {}, preValidate = {}, postValidate = {}, upgradeMergeList = [] } = {})
    {
+      if (typeof allowExtends !== 'boolean') { throw new TypeError(`'allowExtends' is not a 'boolean'.`); }
       if (typeof defaultValues !== 'object') { throw new TypeError(`'defaultValues' is not an 'object'.`); }
       if (typeof preValidate !== 'object') { throw new TypeError(`'preValidate' is not an 'object'.`); }
       if (typeof postValidate !== 'object') { throw new TypeError(`'postValidate' is not an 'object'.`); }
       if (!Array.isArray(upgradeMergeList)) { throw new TypeError(`'upgradeMergeList' is not an 'array'.`); }
 
       /**
-       * Accessor entry to default value.
+       * Accessor entry which allows / prevents config extension.
+       * @type {object}
+       */
+      this._allowExtends = allowExtends;
+
+      /**
+       * Accessor entry to default values.
        * @type {object}
        */
       this._defaultValues = defaultValues;
