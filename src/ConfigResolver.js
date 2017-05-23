@@ -389,7 +389,7 @@ export default class ConfigResolver
     */
    _resolveExtends(config)
    {
-      if (!config.extends) { return JSON.parse(JSON.stringify(config)); }
+      if (!config.extends) { return config; }
 
       const dirPath = process.cwd();
 
