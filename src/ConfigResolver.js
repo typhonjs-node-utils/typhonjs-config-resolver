@@ -430,7 +430,10 @@ export default class ConfigResolver
     */
    setDefaultValues(config)
    {
-      if (this._defaultValues) { ObjectUtil.safeSetAll(config, this._defaultValues, 'set-undefined', false); }
+      if (this._defaultValues)
+      {
+         ObjectUtil.safeSetAll(config, this._defaultValues, 'set-undefined', this._createMissing);
+      }
    }
 
    /**
@@ -438,10 +441,11 @@ export default class ConfigResolver
     *
     * Note: For values of ConfigResolverData not set empty defaults are provided.
     */
-   setResolverData(
-    { allowExtends = true, defaultValues = {}, preValidate = {}, postValidate = {}, upgradeMergeList = [] } = {})
+   setResolverData({ allowExtends = true, createMissing = true, defaultValues = {}, preValidate = {}, postValidate = {},
+    upgradeMergeList = [] } = {})
    {
       if (typeof allowExtends !== 'boolean') { throw new TypeError(`'allowExtends' is not a 'boolean'.`); }
+      if (typeof createMissing !== 'boolean') { throw new TypeError(`'createMissing' is not a 'boolean'.`); }
       if (typeof defaultValues !== 'object') { throw new TypeError(`'defaultValues' is not an 'object'.`); }
       if (typeof preValidate !== 'object') { throw new TypeError(`'preValidate' is not an 'object'.`); }
       if (typeof postValidate !== 'object') { throw new TypeError(`'postValidate' is not an 'object'.`); }
@@ -449,9 +453,15 @@ export default class ConfigResolver
 
       /**
        * Accessor entry which allows / prevents config extension.
-       * @type {object}
+       * @type {boolean}
        */
       this._allowExtends = allowExtends;
+
+      /**
+       * Accessor entry which allows missing default object hash values to be set.
+       * @type {boolean}
+       */
+      this._createMissing = createMissing;
 
       /**
        * Accessor entry to default values.
