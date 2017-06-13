@@ -36,7 +36,7 @@ export default class ConfigResolver
     *
     * @param {function}    [validate] - A function performing validation.
     *
-    * @param {string[]}    [loadedConfigs] The config files already loaded.
+    * @param {string[]}    [loadedConfigs=[]] The config files already loaded.
     *
     * @returns {Object} A new configuration object with all of the "extends" fields loaded and merged.
     */
@@ -63,7 +63,7 @@ export default class ConfigResolver
 
          if (this._eventbus && this._logEvent)
          {
-            this._eventbus.trigger(this._logEvent, `resolving config extends: ${parentPath}`);
+            this._eventbus.trigger(this._logEvent, `${this._logPrepend}resolving config extends: ${parentPath}`);
          }
 
          // Stores the loaded config path.
@@ -209,6 +209,16 @@ export default class ConfigResolver
    }
 
    /**
+    * Returns any associated log prepend string.
+    *
+    * @returns {string}
+    */
+   getLogPrepend()
+   {
+      return this._logPrepend;
+   }
+
+   /**
     * Returns the resolver data as a ConfigResolverData object.
     *
     * Note: that this is the active data and a copy is not made.
@@ -315,7 +325,7 @@ export default class ConfigResolver
        */
       this._eventbus = eventbus;
       this._logEvent = options.logEvent || 'log:info';
-
+      this._logPrepend = options.logPrepend || '';
 
       let eventPrepend = '';
 
@@ -434,6 +444,18 @@ export default class ConfigResolver
       {
          ObjectUtil.safeSetAll(config, this._defaultValues, 'set-undefined', this._createMissing);
       }
+   }
+
+   /**
+    * Sets any associated log prepend string.
+    *
+    * @param {string}   logPrepend - A string to prepend to any log statements.
+    */
+   setLogPrepend(logPrepend = '')
+   {
+      if (typeof logPrepend !== 'string') { throw new TypeError('logPrepend is not a string.'); }
+
+      this._logPrepend = logPrepend;
    }
 
    /**
