@@ -227,12 +227,13 @@ export default class ConfigResolver
     */
    getResolverData()
    {
-      return {
+      return JSON.parse(JSON.stringify(
+      {
          defaultValues: this._defaultValues,
          preValidate: this._preValidate,
          postValidate: this._postValidate,
          upgradeMergeList: this._upgradeMergeList
-      };
+      }));
    }
 
    /**
@@ -489,7 +490,7 @@ export default class ConfigResolver
        * Accessor entry to default values.
        * @type {object}
        */
-      this._defaultValues = defaultValues;
+      this._defaultValues = JSON.parse(JSON.stringify(defaultValues)); // Must clone to ensure not frozen.
 
       /**
        * Accessor entry to typhonjs-object-util validation entry.
